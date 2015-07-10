@@ -1,0 +1,12 @@
+# Linux
+bin/*
+run.sh
+.ice-cache
+# Windows
+Debug/*
+Release/*
+*.sdf
+*.sln
+*.suo
+*.filters
+spacerank.opensdf

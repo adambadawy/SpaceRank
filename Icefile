@@ -1,0 +1,16 @@
+{
+    "targets": ["release"],
+    "default_targets": ["release"],
+    "src_dir": "src",
+    "flags": "-std=c++11 -Wall",
+    "include_dirs": [],
+    "lib_dirs": [],
+    "libs":
+        [ "sfml-system"
+        , "sfml-graphics"
+        , "sfml-window"
+        , "sfml-audio"
+        , "sfml-network" ],
+    "build_dirs": {"release": "bin"},
+    "program_name": "spacerank"
+}

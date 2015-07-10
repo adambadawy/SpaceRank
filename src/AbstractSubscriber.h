@@ -19,10 +19,10 @@ public:
     virtual void subscribe(MsgType type) = 0;
 
     /**
-      * Broadcasts a Msg.
-      *
-      * All subscribers will have handleMsg called with an equivalent Msg
-      * object as an argument.
-      */
+     * Broadcasts a Msg.
+     *
+     * All subscribers will have handleMsg called with an equivalent Msg
+     * object as an argument.
+     */
     virtual void broadcast(const Msg &msg) = 0;
 };

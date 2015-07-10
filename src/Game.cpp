@@ -34,11 +34,6 @@ bool Game::handleEvent(const sf::Event &event)
         return true;
 
     case sf::Event::Resized:
-        std::cout
-            << event.size.width
-            << ", "
-            << event.size.height
-            << std::endl;
         window.setSize(sf::Vector2u(event.size.width, event.size.height));
         renderer.refreshSurface();
         return true;

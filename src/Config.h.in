@@ -1,0 +1,2 @@
+#define SpaceRank_VERSION_MAJOR @SpaceRank_VERSION_MAJOR@
+#define SpaceRank_VERSION_MINOR @SpaceRank_VERSION_MINOR@

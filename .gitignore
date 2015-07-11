@@ -1,7 +1,15 @@
+CMakeCache.txt
+CMakeFiles/*
+CPackConfig.cmake
+CPackSourceConfig.cmake
+Makefile
+cmake_install.cmake
+gmon.out
+spacerank
+
 # Linux
 bin/*
-run.sh
-.ice-cache
+
 # Windows
 Debug/*
 Release/*

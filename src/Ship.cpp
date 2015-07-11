@@ -15,9 +15,13 @@ Ship::Ship(sf::Vector2f pos)
     , attackCooldown(sf::Time::Zero)
 {
     sprite.setPointCount(3);
+
+    float shipLength = 26;
+    float shipWidth = 20;
+
     sprite.setPoint(0, sf::Vector2f(0, 0));
-    sprite.setPoint(1, sf::Vector2f(0, 8));
-    sprite.setPoint(2, sf::Vector2f(13, 4));
+    sprite.setPoint(1, sf::Vector2f(0, shipWidth));
+    sprite.setPoint(2, sf::Vector2f(shipLength, shipWidth / 2));
     sprite.setFillColor(sf::Color::White);
     sf::FloatRect bounds = sprite.getLocalBounds();
     sprite.setOrigin(bounds.width / 2, bounds.height / 2);
@@ -65,4 +69,8 @@ void Ship::update(sf::Time dt)
 void Ship::render(Renderer &renderer) const
 {
     renderer.draw(sprite, pos);
+    renderer.drawText
+        ( "debug text"
+        , sf::Vector2i(pos.x, pos.y - 40)
+        , Renderer::Align::Center );
 }

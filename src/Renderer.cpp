@@ -6,9 +6,6 @@
 Renderer::Renderer(sf::RenderWindow &window, float scale)
     : window(window)
 {
-    surfaceBuffer.setScale(sf::Vector2f(scale, scale));
-    refreshSurface();
-
     if (!font.loadFromFile("res/pixeljosh6.ttf"))
         std::cerr << "Fatal: failed to load font." << std::endl;
 
@@ -17,48 +14,31 @@ Renderer::Renderer(sf::RenderWindow &window, float scale)
 }
 
 
-sf::Vector2u Renderer::getSurfaceSize() const { return surface.getSize(); }
-
-
-void Renderer::refreshSurface()
-{
-    auto windowSize = window.getSize();
-    float scale = surfaceBuffer.getScale().x;
-    surface.create
-        ( (unsigned int)(windowSize.x / scale)
-        , (unsigned int)(windowSize.y / scale) );
-    surface.clear();
-}
+sf::Vector2u Renderer::getSurfaceSize() const { return window.getSize(); }
 
 
 void Renderer::flip()
 {
-    surface.display();
-    surfaceBuffer.setTexture(surface.getTexture());
-
-    window.clear();
-    window.draw(surfaceBuffer);
     window.display();
-
-    surface.clear();
+    window.clear();
 }
 
 
 void Renderer::draw(sf::Sprite &sprite, sf::Vector2f pos)
 {
     sprite.setPosition(pos);
-    surface.draw(sprite);
+    window.draw(sprite);
 }
 
 
 void Renderer::draw(sf::Shape &shape, sf::Vector2f pos)
 {
     shape.setPosition(pos);
-    surface.draw(shape);
+    window.draw(shape);
 }
 
 
-void Renderer::draw
+void Renderer::drawText
     ( const std::string &s
     , sf::Vector2i pos
     , Align align
@@ -78,5 +58,5 @@ void Renderer::draw
     }
     textBuffer.setPosition(sf::Vector2f(pos));
     textBuffer.setColor(color);
-    surface.draw(textBuffer);
+    window.draw(textBuffer);
 }

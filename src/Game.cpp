@@ -35,11 +35,6 @@ bool Game::handleEvent(const sf::Event &event)
         window.close();
         return true;
 
-    case sf::Event::Resized:
-        window.setSize(sf::Vector2u(event.size.width, event.size.height));
-        renderer.refreshSurface();
-        return true;
-
     case sf::Event::KeyPressed:
         if (event.key.alt && event.key.code == sf::Keyboard::F4)
         {

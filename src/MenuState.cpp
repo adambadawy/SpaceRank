@@ -86,20 +86,21 @@ void MenuState::update(sf::Time dt) {}
 void MenuState::render(Renderer &renderer) const
 {
     auto size = renderer.getSurfaceSize();
-    renderer.draw
+    renderer.drawText
         ( "SPACERANK"
         , sf::Vector2i(size.x / 2, (size.y * 3) / 16)
         , Renderer::Align::Center
         , sf::Color::White
-        , 3 );
+        , 8 );
 
     auto selectedColor = sf::Color(0, 150, 255);
     for (unsigned int i = 0; i < choices.size(); ++i)
     {
-        renderer.draw
+        renderer.drawText
             ( choices[i]
             , sf::Vector2i(size.x / 2, (size.y * (9 + i)) / 16)
             , Renderer::Align::Center
-            , (int)i == selection ? selectedColor : sf::Color::White );
+            , (int)i == selection ? selectedColor : sf::Color::White
+            , 3 );
     }
 }

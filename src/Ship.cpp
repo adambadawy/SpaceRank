@@ -9,8 +9,16 @@
 #include "Renderer.h"
 
 
-Ship::Ship(sf::Vector2f pos)
+Ship::Ship
+    ( sf::Vector2f pos
+    , int moveSpeed
+    , int rotateSpeed
+    , int attackCooldownSpeed )
+
     : Entity(pos)
+    , moveSpeed(moveSpeed)
+    , rotateSpeed(rotateSpeed)
+    , attackCooldownSpeed(attackCooldownSpeed)
     , rot(0)
     , attackCooldown(sf::Time::Zero)
 {
@@ -41,10 +49,10 @@ void Ship::update(sf::Time dt)
         moveAxis.y += 1;
 
     pos += sf::Vector2f
-        ( moveAxis.y * MoveSpeed * dt.asSeconds() * std::cos(rot)
-        , moveAxis.y * MoveSpeed * dt.asSeconds() * std::sin(rot) );
+        ( moveAxis.y * getMoveSpeed() * dt.asSeconds() * std::cos(rot)
+        , moveAxis.y * getMoveSpeed() * dt.asSeconds() * std::sin(rot) );
     
-    rot = (rot + moveAxis.x * RotateSpeed * dt.asSeconds());
+    rot = (rot + moveAxis.x * getRotateSpeed() * dt.asSeconds());
     if (rot < -Pi)
         rot += 2 * Pi;
     else if (rot >= Pi)
@@ -59,8 +67,7 @@ void Ship::update(sf::Time dt)
         if (attackCooldown == sf::Time::Zero)
         {
             // FIRE!
-            attackCooldown +=
-                sf::seconds(1) - sf::seconds(0.1) * AttackCooldownSpeed;
+            attackCooldown += getAttackCooldownTime();
         }
     }
 }
@@ -71,6 +78,16 @@ void Ship::render(Renderer &renderer) const
     renderer.draw(sprite, pos);
     renderer.drawText
         ( "debug text"
-        , sf::Vector2i(pos.x, pos.y - 40)
+        , sf::Vector2i(pos.x, pos.y - 55)
         , Renderer::Align::Center );
+}
+
+
+float Ship::getMoveSpeed() { return 80 + 10 * moveSpeed; }
+
+float Ship::getRotateSpeed() { return (100 + 20 * rotateSpeed) * Pi / 180; }
+
+sf::Time Ship::getAttackCooldownTime()
+{
+    return sf::milliseconds(1200 - 100 * attackCooldownSpeed);
 }

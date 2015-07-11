@@ -9,19 +9,30 @@
 class Ship : public Entity
 {
 public:
-    Ship(sf::Vector2f pos);
+    Ship( sf::Vector2f pos
+        , int moveSpeed
+        , int rotateSpeed
+        , int attackCooldownSpeed );
 
     virtual void update(sf::Time dt);
     virtual void render(Renderer &renderer) const;
 
 private:
+    float getMoveSpeed();
+    float getRotateSpeed();
+    sf::Time getAttackCooldownTime();
+    
     constexpr static float Pi = std::acos(-1);
 
-    constexpr static float RotateSpeed = 200.0f * Pi / 180.0f;
-    constexpr static float MoveSpeed = 100.0f;
-    constexpr static float AttackCooldownSpeed = 5;
+    // Ship stats
+    int moveSpeed;
+    int rotateSpeed;
+    int attackCooldownSpeed;
 
+    /** The rotation of the ship. */
     float rot;
+
+    /** The time left until the ship can fire again. */
     sf::Time attackCooldown;
 
     mutable sf::ConvexShape sprite;

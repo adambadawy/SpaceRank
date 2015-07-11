@@ -1,16 +1,36 @@
 {
-    "targets": ["release"],
-    "default_targets": ["release"],
+    "targets": ["release", "debug"],
+
+    "default_targets": ["release", "debug"],
+
     "src_dir": "src",
-    "flags": "-std=c++11 -Wall",
+
+    "flags":
+        { "release": "-std=c++11 -Wall"
+        , "debug": "-std=c++11 -Wall -pg" },
+
     "include_dirs": [],
+
     "lib_dirs": [],
+
     "libs":
-        [ "sfml-system"
-        , "sfml-graphics"
-        , "sfml-window"
-        , "sfml-audio"
-        , "sfml-network" ],
-    "build_dirs": {"release": "bin"},
+        { "release":
+            [ "sfml-system"
+            , "sfml-graphics"
+            , "sfml-window"
+            , "sfml-audio"
+            , "sfml-network" ]
+
+        , "debug":
+            [ "sfml-system-d"
+            , "sfml-graphics-d"
+            , "sfml-window-d"
+            , "sfml-audio-d"
+            , "sfml-network" ] },
+
+    "build_dirs":
+        { "release": "bin/release"
+        , "debug": "bin/debug" },
+
     "program_name": "spacerank"
 }

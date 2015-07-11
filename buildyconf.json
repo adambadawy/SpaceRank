@@ -1,0 +1,30 @@
+{
+    // Every key in this object can be called explicitly from the Buildy shell.
+    "commands": {
+        "clean":
+            "clear && rm -rf bin && echo && echo 'Build erased.'",
+
+        "build":
+            "clear && ice build debug && echo && echo 'Build passing.'",
+
+        "rebuild":
+            "clear && rm -rf bin && ice build debug && echo && echo 'Build passing.'",
+
+        "run":
+            "clear && ab 10 && echo && bin/debug/spacerank && echo && ab 5 && echo && echo 'Process exited.'",
+
+        "status":
+            "clear && git status",
+
+        "diff":
+            "clear && git diff"
+    },
+
+    // This command will be run when a file is changed.
+    "run_on_changes": "build",
+
+    // This command will be run when Buildy is started.
+    "run_on_start": "rebuild",
+
+    "watch_pattern": "^src/\\w+\\.(cpp|h)$"
+}

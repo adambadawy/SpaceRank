@@ -13,7 +13,7 @@ Game::Game()
     : exitCode(0)
     , window
         ( sf::VideoMode::getFullscreenModes()[0]
-        , "Spacerank"
+        , "SpaceRank"
         , sf::Style::Fullscreen )
     , resMgr(*this)
     , audioMgr(&msgMgr)
@@ -21,6 +21,8 @@ Game::Game()
     , menuState(new MenuState(*this, &msgMgr, resMgr))
     , state(menuState)
 {
+    window.setMouseCursorVisible(false);
+
     subscribe(MsgType::RequestExit);
     subscribe(MsgType::RequestState);
 }

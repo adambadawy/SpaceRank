@@ -24,7 +24,7 @@
     "run_on_changes": "build",
 
     // This command will be run when Buildy is started.
-    "run_on_start": "rebuild",
+    "run_on_start": "build",
 
     "watch_pattern": "^src/\\w+\\.(cpp|h(\\.in)?)$"
 }

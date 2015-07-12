@@ -2,16 +2,16 @@
     // Every key in this object can be called explicitly from the Buildy shell.
     "commands": {
         "clean":
-            "clear && rm -rf bin && echo && echo 'Build erased.'",
+            "clear && make clean && echo && echo 'Build erased.'",
 
         "build":
-            "clear && ice build debug && echo && echo 'Build passing.'",
+            "clear && make && echo && echo 'Build passing.'",
 
         "rebuild":
-            "clear && rm -rf bin && ice build debug && echo && echo 'Build passing.'",
+            "clear && make clean && cmake . && make && echo && echo 'Build passing.'",
 
         "run":
-            "clear && ab 10 && echo && bin/debug/spacerank && echo && ab 5 && echo && echo 'Process exited.'",
+            "clear && ab 10 > /dev/null && echo && ./spacerank && echo && ab 10 > /dev/null && echo && echo 'Process exited.'",
 
         "status":
             "clear && git status",
@@ -26,5 +26,5 @@
     // This command will be run when Buildy is started.
     "run_on_start": "rebuild",
 
-    "watch_pattern": "^src/\\w+\\.(cpp|h)$"
+    "watch_pattern": "^src/\\w+\\.(cpp|h(\\.in)?)$"
 }

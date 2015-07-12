@@ -11,14 +11,19 @@
 
 Ship::Ship
     ( sf::Vector2f pos
-    , int moveSpeed
-    , int rotateSpeed
-    , int attackCooldownSpeed )
+    , int thrust
+    , int handling
+    , int attackPower
+    , int attackFrequency
+    , int shieldIntegrity
+    , int hullIntegrity )
 
     : Entity(pos)
-    , moveSpeed(moveSpeed)
-    , rotateSpeed(rotateSpeed)
-    , attackCooldownSpeed(attackCooldownSpeed)
+    , thrust(thrust)
+    , handling(handling)
+    , attackPower(attackPower)
+    , attackFrequency(attackFrequency)
+    , text("Marek Jaroki")
     , rot(0)
     , attackCooldown(sf::Time::Zero)
 {
@@ -48,11 +53,21 @@ void Ship::update(sf::Time dt)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         moveAxis.y += 1;
 
+    float moveSpeed = getRawMoveSpeed();
+    float rotateSpeed = getRawRotateSpeed();
+    bool damperOn =
+        sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)
+            || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
+    if (damperOn) {
+        moveSpeed /= 2;
+        rotateSpeed /= 2;
+    }
+
     pos += sf::Vector2f
-        ( moveAxis.y * getMoveSpeed() * dt.asSeconds() * std::cos(rot)
-        , moveAxis.y * getMoveSpeed() * dt.asSeconds() * std::sin(rot) );
+        ( moveAxis.y * moveSpeed * dt.asSeconds() * std::cos(rot)
+        , moveAxis.y * moveSpeed * dt.asSeconds() * std::sin(rot) );
     
-    rot = (rot + moveAxis.x * getRotateSpeed() * dt.asSeconds());
+    rot = (rot + moveAxis.x * rotateSpeed * dt.asSeconds());
     if (rot < -Pi)
         rot += 2 * Pi;
     else if (rot >= Pi)
@@ -66,7 +81,10 @@ void Ship::update(sf::Time dt)
     {
         if (attackCooldown == sf::Time::Zero)
         {
-            // FIRE!
+            if (text == "bang")
+                text = "boom";
+            else
+                text = "bang";
             attackCooldown += getAttackCooldownTime();
         }
     }
@@ -77,17 +95,17 @@ void Ship::render(Renderer &renderer) const
 {
     renderer.draw(sprite, pos);
     renderer.drawText
-        ( "debug text"
+        ( text
         , sf::Vector2i(pos.x, pos.y - 55)
         , Renderer::Align::Center );
 }
 
 
-float Ship::getMoveSpeed() { return 80 + 10 * moveSpeed; }
+float Ship::getRawMoveSpeed() { return 10 + 40 * thrust; }
 
-float Ship::getRotateSpeed() { return (100 + 20 * rotateSpeed) * Pi / 180; }
+float Ship::getRawRotateSpeed() { return (10 + 20 * handling) * Pi / 180; }
 
 sf::Time Ship::getAttackCooldownTime()
 {
-    return sf::milliseconds(1200 - 100 * attackCooldownSpeed);
+    return sf::milliseconds(3060 - 300 * attackFrequency);
 }

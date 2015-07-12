@@ -12,7 +12,7 @@ using std::shared_ptr;
 
 PlayState::PlayState(Game &game, MsgMgr *msgMgr) : State(game, msgMgr)
 {
-    shared_ptr<Ship> ship(new Ship(sf::Vector2f(100,100), 1, 1, 1));
+    shared_ptr<Ship> ship(new Ship(sf::Vector2f(100,100), 10, 10, 10, 10, 10, 10));
     entities.push_back(ship);
 }
 

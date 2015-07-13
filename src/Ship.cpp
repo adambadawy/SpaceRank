@@ -43,31 +43,35 @@ Ship::Ship
 
 void Ship::update(sf::Time dt)
 {
-    sf::Vector2i moveAxis(0, 0);
+    float dtSeconds = dt.asSeconds();
+
+    int thrustInput = 0;
+    int rotateInput = 0;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        moveAxis.x -= 1;
+        rotateInput -= 1;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        moveAxis.x += 1;
+        rotateInput += 1;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        moveAxis.y -= 1;
+        thrustInput -= 1;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        moveAxis.y += 1;
+        thrustInput += 1;
 
     float moveSpeed = getRawMoveSpeed();
     float rotateSpeed = getRawRotateSpeed();
     bool damperOn =
         sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)
             || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
-    if (damperOn) {
+    if (damperOn)
+    {
         moveSpeed /= 2;
         rotateSpeed /= 2;
     }
 
     pos += sf::Vector2f
-        ( moveAxis.y * moveSpeed * dt.asSeconds() * std::cos(rot)
-        , moveAxis.y * moveSpeed * dt.asSeconds() * std::sin(rot) );
-    
-    rot = (rot + moveAxis.x * rotateSpeed * dt.asSeconds());
+        ( thrustInput * moveSpeed * dtSeconds * std::cos(rot)
+        , thrustInput * moveSpeed * dtSeconds * std::sin(rot) );
+
+    rot = (rot + rotateInput * rotateSpeed * dtSeconds);
     if (rot < -Pi)
         rot += 2 * Pi;
     else if (rot >= Pi)

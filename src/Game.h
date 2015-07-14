@@ -41,11 +41,13 @@ public:
 
 private:
     int exitCode;
+
     MsgMgr msgMgr;
     sf::RenderWindow window;
     ResMgr resMgr;
     AudioMgr audioMgr;
     Renderer renderer;
+
     shared_ptr<MenuState> menuState;
     shared_ptr<State> state;
 };

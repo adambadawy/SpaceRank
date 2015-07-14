@@ -5,24 +5,24 @@
 #include "State.h"
 
 
-/** The type or "topic" of a message. */
+/// The type or "topic" of a message.
 enum class MsgType
 {
-    /** A request to quit the game. */
+    /// A request to quit the game.
     RequestExit,
 
-    /** A request to change the state of the game. */
+    /// A request to change the state of the game.
     RequestState,
 
-    /** A request to play a sound. */
+    /// A request to play a sound.
     PlaySound,
 
-    /** A request to play some music. */
+    /// A request to play some music.
     PlayMusic
 };
 
 
-/** The ideal structure for one-way communication between objects. */
+/// The ideal structure for one-way communication between objects.
 class Msg
 {
 public:

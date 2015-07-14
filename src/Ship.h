@@ -36,13 +36,13 @@ private:
     int shieldIntegrity;
     int hullIntegrity;
 
-    /** The text displayed over the ship. */
+    /// The text displayed over the ship.
     std::string text;
 
-    /** The rotation of the ship. */
+    /// The rotation of the ship.
     float rot;
 
-    /** The time left until the ship can fire again. */
+    /// The time left until the ship can fire again.
     sf::Time attackCooldown;
 
     mutable sf::ConvexShape sprite;

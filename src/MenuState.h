@@ -10,19 +10,19 @@ class MsgMgr;
 class ResMgr;
 
 
-/** The "main menu" state of the game. */
+/// The "main menu" state of the game.
 class MenuState : public State
 {
 public:
     MenuState(Game &game, MsgMgr *msgMgr, ResMgr &resMgr);
 
-    /** @see EventHandler */
+    /// @see EventHandler
     virtual bool handleEvent(const sf::Event &event);
 
-    /** @see Updatable */
+    /// @see Updatable
     virtual void update(sf::Time dt);
 
-    /** @see Renderable */
+    /// @see Renderable
     virtual void render(Renderer &renderer) const;
 
 

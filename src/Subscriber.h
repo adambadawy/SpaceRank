@@ -5,10 +5,8 @@
 class MsgMgr;
 
 
-/**
- * A default implementation of AbstractSubscriber. Subclasses should override
- * handleMsg.
- */
+/// A default implementation of AbstractSubscriber. Subclasses should override
+/// handleMsg.
 class Subscriber : AbstractSubscriber
 {
 public:

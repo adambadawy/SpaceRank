@@ -17,35 +17,37 @@ class State;
 class MenuState;
 
 
-/** This is class represents the control flow and global state of the game. */
+/// This is class represents the control flow and global state of the game.
 class Game : public AbstractSubscriber, public EventHandler
 {
 public:
     Game();
 
-    /** @see EventHandler */
+    /// @see EventHandler
     virtual bool handleEvent(const sf::Event &event);
     
-    /** @see AbstractSubscriber */
+    /// @see AbstractSubscriber
     virtual void handleMsg(const Msg &msg);
 
-    /** @see AbstractSubscriber */
+    /// @see AbstractSubscriber
     virtual void subscribe(MsgType type);
 
-    /** @see AbstractSubscriber */
+    /// @see AbstractSubscriber
     virtual void broadcast(const Msg &msg);
 
-    /** The "game loop". */
+    /// The "game loop".
     int run();
 
 
 private:
     int exitCode;
+
     MsgMgr msgMgr;
     sf::RenderWindow window;
     ResMgr resMgr;
     AudioMgr audioMgr;
     Renderer renderer;
+
     shared_ptr<MenuState> menuState;
     shared_ptr<State> state;
 };

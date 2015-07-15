@@ -6,6 +6,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+#include <Box2D/Box2D.h>
+
 #include "State.h"
 
 using std::shared_ptr;
@@ -25,5 +27,6 @@ public:
 
 
 private:
+    b2World world;
     std::vector<shared_ptr<Entity>> entities;
 };

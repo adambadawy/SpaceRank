@@ -1,16 +1,23 @@
 #pragma once
 
+#include <memory>
+
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+#include <Box2D/Box2D.h>
+
 #include "Entity.h"
+
+using std::unique_ptr;
 
 
 class Ship : public Entity
 {
 public:
     Ship
-        ( sf::Vector2f pos
+        ( b2World &world
+        , sf::Vector2f pos
         , int thrust
         , int handling
         , int attackPower
@@ -27,6 +34,8 @@ private:
     sf::Time getAttackCooldownTime();
     
     constexpr static float Pi = std::acos(-1);
+
+    b2Body *body;
 
     // Ship stats (all of these are a value 1 through 10, totaling 15.)
     int thrust;

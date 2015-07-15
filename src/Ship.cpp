@@ -10,7 +10,8 @@
 
 
 Ship::Ship
-    ( sf::Vector2f pos
+    ( b2World &world
+    , sf::Vector2f pos
     , int thrust
     , int handling
     , int attackPower
@@ -19,6 +20,7 @@ Ship::Ship
     , int hullIntegrity )
 
     : Entity(pos)
+    , body(nullptr)
     , thrust(thrust)
     , handling(handling)
     , attackPower(attackPower)
@@ -27,6 +29,20 @@ Ship::Ship
     , rot(0)
     , attackCooldown(sf::Time::Zero)
 {
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(pos.x, pos.y);
+    body = world.CreateBody(&bodyDef);
+
+    b2PolygonShape dynamicBox;
+    dynamicBox.SetAsBox(1.0f, 1.0f);
+
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape = &dynamicBox;
+    fixtureDef.density = 1.0f;
+    fixtureDef.friction = 0.3f;
+    body->CreateFixture(&fixtureDef);
+
     sprite.setPointCount(3);
 
     float shipLength = 26;
@@ -97,7 +113,8 @@ void Ship::update(sf::Time dt)
 
 void Ship::render(Renderer &renderer) const
 {
-    renderer.draw(sprite, pos);
+    b2Vec2 bodyPos = body->GetPosition();
+    renderer.draw(sprite, sf::Vector2f(bodyPos.x * 10, 1080 - (bodyPos.y * 10)));
     renderer.drawText
         ( text
         , sf::Vector2i(pos.x, pos.y - 55)

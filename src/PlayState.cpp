@@ -14,7 +14,12 @@ PlayState::PlayState(Game &game, MsgMgr *msgMgr)
     : State(game, msgMgr)
     , world( b2Vec2(0.0f, -10.0f) )
 {
-    shared_ptr<Ship> ship(new Ship(sf::Vector2f(100,100), 10, 10, 10, 10, 10, 10));
+    float32 timeStep = 1.0f / 60.0f;
+    int32 velocityIterations = 8;
+    int32 positionIterations = 3;
+
+    shared_ptr<Ship> ship(
+        new Ship(world, sf::Vector2f(100,100), 10, 10, 10, 10, 10, 10 ) );
     entities.push_back(ship);
 }
 
@@ -37,6 +42,7 @@ bool PlayState::handleEvent(const sf::Event &event)
 
 void PlayState::update(sf::Time dt)
 {
+    world.Step(dt.asSeconds(), 8, 3);
     for (auto ent : entities)
         ent->update(dt);
 }

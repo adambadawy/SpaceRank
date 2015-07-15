@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 
 #include <SFML/Graphics.hpp>
@@ -9,7 +10,8 @@
 
 #include "Entity.h"
 
-using std::unique_ptr;
+using std::function;
+using std::shared_ptr;
 
 
 class Ship : public Entity
@@ -35,7 +37,7 @@ private:
     
     constexpr static float Pi = std::acos(-1);
 
-    b2Body *body;
+    shared_ptr<b2Body> body;
 
     // Ship stats (all of these are a value 1 through 10, totaling 15.)
     int thrust;

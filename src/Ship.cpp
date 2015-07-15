@@ -32,7 +32,14 @@ Ship::Ship
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(pos.x, pos.y);
-    body = world.CreateBody(&bodyDef);
+
+    // This lambda captures `world` as a reference (hence [&])
+    // equivalent: [&world](byBody *b) mutable { world.DestroyBody(b); };
+    // It also modifies `world`, so we need `mutable` after the parameters.
+    function<void(b2Body*)> deleter =
+        [&](b2Body *b) mutable { world.DestroyBody(b); };
+
+    body = shared_ptr<b2Body>(world.CreateBody(&bodyDef), deleter);
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(1.0f, 1.0f);

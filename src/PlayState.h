@@ -27,6 +27,10 @@ public:
 
 
 private:
+    static const sf::Time PhysicsUpdateDelta;
+
+    sf::Time physicsUpdateTimer;
+
     b2World world;
     std::vector<shared_ptr<Entity>> entities;
 };

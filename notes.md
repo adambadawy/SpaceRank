@@ -37,3 +37,4 @@ https://en.wikipedia.org/wiki/WISEPA_J041022.71%2B150248.5
 http://www.centaurihome.net/swartz.php
 https://en.wikipedia.org/wiki/Stellar_black_hole
 https://en.wikipedia.org/wiki/GRO_J0422%2B32
+http://joshworth.com/dev/pixelspace/pixelspace_solarsystem.html

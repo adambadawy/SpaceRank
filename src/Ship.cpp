@@ -2,51 +2,52 @@
 
 #include <cmath>
 #include <iostream>
+#include <sstream>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+#include "PlayState.h"
 #include "Renderer.h"
+#include "Util.h"
 
 
 Ship::Ship
     ( b2World &world
-    , sf::Vector2f pos
-    , int thrust
+    , sf::Vector2f initPosition
+    , int thrusters
     , int handling
     , int attackPower
     , int attackFrequency
     , int shieldIntegrity
     , int hullIntegrity )
 
-    : Entity(pos)
-    , body(nullptr)
-    , thrust(thrust)
+    : body(nullptr)
+    , thrusters(thrusters)
     , handling(handling)
     , attackPower(attackPower)
     , attackFrequency(attackFrequency)
-    , text("Marek Jaroki")
-    , rot(0)
+    , text("debug text")
     , attackCooldown(sf::Time::Zero)
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(pos.x, pos.y);
+    bodyDef.position.Set(initPosition.x, initPosition.y);
 
     // This lambda captures `world` as a reference (hence [&])
-    // equivalent: [&world](byBody *b) mutable { world.DestroyBody(b); };
+    // equivalent: [&](byBody *b) mutable { world.DestroyBody(b); };
     // It also modifies `world`, so we need `mutable` after the parameters.
     function<void(b2Body*)> deleter =
-        [&](b2Body *b) mutable { world.DestroyBody(b); };
+        [&world](b2Body *b) mutable { world.DestroyBody(b); };
 
     body = shared_ptr<b2Body>(world.CreateBody(&bodyDef), deleter);
 
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(1.0f, 1.0f);
+    dynamicBox.SetAsBox(1, 1);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 1.0f;
+    fixtureDef.density = 1;
     fixtureDef.friction = 0.3f;
     body->CreateFixture(&fixtureDef);
 
@@ -64,74 +65,101 @@ Ship::Ship
 }
 
 
+sf::Vector2f Ship::getPosition() const
+{
+    return toSfVector(body->GetPosition());
+}
+
+
+float Ship::getRotation() const { return toDegrees(body->GetAngle()); }
+
+
 void Ship::update(sf::Time dt)
 {
-    float dtSeconds = dt.asSeconds();
+    float damperCoeff =
+        sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)
+            || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift) ? 0.5 : 1;
 
     int thrustInput = 0;
-    int rotateInput = 0;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        rotateInput -= 1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        rotateInput += 1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        thrustInput -= 1;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         thrustInput += 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        thrustInput -= 1;
+    updateThrust(thrustInput, damperCoeff);
 
-    float moveSpeed = getRawMoveSpeed();
-    float rotateSpeed = getRawRotateSpeed();
-    bool damperOn =
-        sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)
-            || sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
-    if (damperOn)
+    int rotateInput = 0;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        rotateInput += 1;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        rotateInput -= 1;
+    body->SetAngularVelocity(rotateInput * handling * damperCoeff);
+
+    if (attackCooldown != sf::Time::Zero)
     {
-        moveSpeed /= 2;
-        rotateSpeed /= 2;
+        attackCooldown -= dt;
+        if (attackCooldown < sf::Time::Zero)
+            attackCooldown = sf::Time::Zero;
+    }
+    else if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    {
+        if (text == "bang")
+            text = "boom";
+        else
+            text = "bang";
+        attackCooldown += getAttackCooldownTime();
     }
 
-    pos += sf::Vector2f
-        ( thrustInput * moveSpeed * dtSeconds * std::cos(rot)
-        , thrustInput * moveSpeed * dtSeconds * std::sin(rot) );
+    updateSprite();
+}
 
-    rot = (rot + rotateInput * rotateSpeed * dtSeconds);
-    if (rot < -Pi)
-        rot += 2 * Pi;
-    else if (rot >= Pi)
-        rot -= 2 * Pi;
-    sprite.setRotation(rot * 180 / Pi);
 
-    attackCooldown -= dt;
-    if (attackCooldown < sf::Time::Zero)
-        attackCooldown = sf::Time::Zero;
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+void Ship::updateThrust(int thrustInput, float damperCoeff)
+{
+    float thrustMagnitude = thrusters * ThrustCoeff * damperCoeff;
+    if (thrustInput == 1)
     {
-        if (attackCooldown == sf::Time::Zero)
+        b2Vec2 thrustForce =
+            b2VectorFromMagnitude(thrustMagnitude, body->GetAngle());
+        body->ApplyForceToCenter( thrustForce, true );
+    }
+    else if (thrustInput == -1)
+    {
+        b2Vec2 brakeVel = body->GetLinearVelocity();
+        float magnitude = brakeVel.Normalize();
+        if (abs(magnitude) <
+                (ThrustCoeff * PlayState::PhysicsUpdateDelta.asSeconds()) / 2)
         {
-            if (text == "bang")
-                text = "boom";
-            else
-                text = "bang";
-            attackCooldown += getAttackCooldownTime();
+            body->SetLinearVelocity( b2Vec2(0, 0) );
+        }
+        else
+        {
+            brakeVel *= (thrustMagnitude * -1 * handling) / 10;
+            body->ApplyForceToCenter( brakeVel, true );
         }
     }
 }
 
 
-void Ship::render(Renderer &renderer) const
+void Ship::updateSprite()
 {
-    b2Vec2 bodyPos = body->GetPosition();
-    renderer.draw(sprite, sf::Vector2f(bodyPos.x * 10, 1080 - (bodyPos.y * 10)));
-    renderer.drawText
-        ( text
-        , sf::Vector2i(pos.x, pos.y - 55)
-        , Renderer::Align::Center );
+    sprite.setPosition( this->getPosition() * 10.0f );
+    sprite.setRotation( this->getRotation() );
 }
 
 
-float Ship::getRawMoveSpeed() { return 10 + 40 * thrust; }
+void Ship::render(Renderer &renderer) const
+{
+    renderer.draw(sprite);
+    // text = "%f", body->GetAngularVelocity();
+    std::stringstream ss;
+    ss << (int)(abs(body->GetLinearVelocity().x));
+    text = ss.str();
+    renderer.drawText
+        ( text
+        , sf::Vector2i(sprite.getPosition()) - sf::Vector2i(0, 55)
+        , Renderer::Align::Center );
+}
 
-float Ship::getRawRotateSpeed() { return (10 + 20 * handling) * Pi / 180; }
 
 sf::Time Ship::getAttackCooldownTime()
 {

@@ -13,8 +13,6 @@ class ResMgr;
 class Entity : public EventHandler, public Updatable, public Renderable
 {
 public:
-    Entity(sf::Vector2f pos);
-
     /// @see EventHandler
     virtual bool handleEvent(const sf::Event &event);
 
@@ -23,8 +21,4 @@ public:
 
     /// @see Renderable
     virtual void render(Renderer &renderer) const = 0;
-
-
-protected:
-    sf::Vector2f pos;
 };

@@ -19,16 +19,15 @@ class Game;
 class PlayState : public State
 {
 public:
+    static const sf::Time PhysicsUpdateDelta;
+
     PlayState(Game &game, MsgMgr *msgMgr);
 
     virtual bool handleEvent(const sf::Event &event);
     virtual void update(sf::Time dt);
     virtual void render(Renderer &renderer) const;
 
-
 private:
-    static const sf::Time PhysicsUpdateDelta;
-
     sf::Time physicsUpdateTimer;
 
     b2World world;

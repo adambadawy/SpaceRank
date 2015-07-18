@@ -24,18 +24,10 @@ void Renderer::flip()
 }
 
 
-void Renderer::draw(sf::Sprite &sprite, sf::Vector2f pos)
-{
-    sprite.setPosition(pos);
-    window.draw(sprite);
-}
+void Renderer::draw(sf::Sprite &sprite) { window.draw(sprite); }
 
 
-void Renderer::draw(sf::Shape &shape, sf::Vector2f pos)
-{
-    shape.setPosition(pos);
-    window.draw(shape);
-}
+void Renderer::draw(sf::Shape &shape) { window.draw(shape); }
 
 
 void Renderer::drawText

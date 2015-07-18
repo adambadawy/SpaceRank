@@ -14,8 +14,8 @@ public:
     
     void flip();
 
-    void draw(sf::Sprite &sprite, sf::Vector2f pos);
-    void draw(sf::Shape &shape, sf::Vector2f pos);
+    void draw(sf::Sprite &sprite);
+    void draw(sf::Shape &shape);
     void drawText
         ( const std::string &s
         , sf::Vector2i pos

@@ -19,7 +19,7 @@ PlayState::PlayState(Game &game, MsgMgr *msgMgr)
     , world( b2Vec2(0, 0) ) // no gravity
 {
     shared_ptr<Ship> ship(
-        new Ship(world, sf::Vector2f(50, 108 / 2), 10, 10, 10, 10, 10, 10) );
+        new Ship(world, sf::Vector2f(-30, 7), 10, 10, 10, 10, 10, 10) );
     entities.push_back(ship);
 }
 

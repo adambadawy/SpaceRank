@@ -9,6 +9,10 @@
 #include <Box2D/Box2D.h>
 
 #include "Entity.h"
+#include "ShipStat.h"
+
+using std::function;
+using std::shared_ptr;
 
 using std::function;
 using std::shared_ptr;
@@ -20,12 +24,9 @@ public:
     Ship
         ( b2World &world
         , sf::Vector2f initPosition
-        , int thrusters
-        , int handling
-        , int attackPower
-        , int attackFrequency
-        , int shieldIntegrity
-        , int hullIntegrity );
+        , ShipStat &&stat );
+
+    virtual sf::Vector2f getPosition() const;
 
     virtual sf::Vector2f getPosition() const;
 
@@ -48,13 +49,8 @@ private:
 
     shared_ptr<b2Body> body;
 
-    // Ship stats (all of these are a value 1 through 10, totaling 15.)
-    int thrusters;
-    int handling;
-    int attackPower;
-    int attackFrequency;
-    int shieldIntegrity;
-    int hullIntegrity;
+    /// The "stats" of the Ship.
+    ShipStat stat;
 
     /// The text displayed over the ship.
     mutable std::string text;

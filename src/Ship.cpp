@@ -15,18 +15,10 @@
 Ship::Ship
     ( b2World &world
     , sf::Vector2f initPosition
-    , int thrusters
-    , int handling
-    , int attackPower
-    , int attackFrequency
-    , int shieldIntegrity
-    , int hullIntegrity )
+    , ShipStat &&stat )
 
     : body(nullptr)
-    , thrusters(thrusters)
-    , handling(handling)
-    , attackPower(attackPower)
-    , attackFrequency(attackFrequency)
+    , stat(stat)
     , text("debug text")
     , attackCooldown(sf::Time::Zero)
 {
@@ -92,7 +84,7 @@ void Ship::update(sf::Time dt)
         rotateInput += 1;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         rotateInput -= 1;
-    body->SetAngularVelocity(rotateInput * handling * damperCoeff);
+    body->SetAngularVelocity(rotateInput * stat.getHandling() * damperCoeff);
 
     if (attackCooldown != sf::Time::Zero)
     {
@@ -115,7 +107,7 @@ void Ship::update(sf::Time dt)
 
 void Ship::updateThrust(int thrustInput, float damperCoeff)
 {
-    float thrustMagnitude = thrusters * ThrustCoeff * damperCoeff;
+    float thrustMagnitude = stat.getThrust() * ThrustCoeff * damperCoeff;
     if (thrustInput == 1)
     {
         b2Vec2 thrustForce =
@@ -133,7 +125,7 @@ void Ship::updateThrust(int thrustInput, float damperCoeff)
         }
         else
         {
-            brakeVel *= (thrustMagnitude * -1 * handling) / 10;
+            brakeVel *= (thrustMagnitude * -1 * stat.getHandling()) / 10;
             body->ApplyForceToCenter( brakeVel, true );
         }
     }
@@ -163,5 +155,5 @@ void Ship::render(Renderer &renderer) const
 
 sf::Time Ship::getAttackCooldownTime()
 {
-    return sf::milliseconds(3060 - 300 * attackFrequency);
+    return sf::milliseconds(3060 - 300 * stat.getAttackFreq());
 }

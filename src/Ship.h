@@ -1,35 +1,55 @@
 #pragma once
 
+#include <functional>
+#include <memory>
+
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
+#include <Box2D/Box2D.h>
+
 #include "Entity.h"
+
+using std::function;
+using std::shared_ptr;
 
 
 class Ship : public Entity
 {
 public:
     Ship
-        ( sf::Vector2f pos
-        , int thrust
+        ( b2World &world
+        , sf::Vector2f initPosition
+        , int thrusters
         , int handling
         , int attackPower
         , int attackFrequency
         , int shieldIntegrity
         , int hullIntegrity );
 
+    virtual sf::Vector2f getPosition() const;
+
     virtual void update(sf::Time dt);
     virtual void render(Renderer &renderer) const;
 
 private:
-    float getRawMoveSpeed();
-    float getRawRotateSpeed();
+    float ThrustCoeff = 10;
+
+    float getRotation() const;
+
+    float getThrust();
+    float getRotateSpeed();
     sf::Time getAttackCooldownTime();
-    
-    constexpr static float Pi = std::acos(-1);
+
+    /// Update Ship thrusters given the thrust and damper inputs.
+    void updateThrust(int thrustInput, float damperCoeff);
+    /// Reposition and rotate the Ship sprite.
+    void updateSprite();
+
+    shared_ptr<b2Body> body;
 
     // Ship stats (all of these are a value 1 through 10, totaling 15.)
-    int thrust;
+    int thrusters;
     int handling;
     int attackPower;
     int attackFrequency;
@@ -37,10 +57,7 @@ private:
     int hullIntegrity;
 
     /// The text displayed over the ship.
-    std::string text;
-
-    /// The rotation of the ship.
-    float rot;
+    mutable std::string text;
 
     /// The time left until the ship can fire again.
     sf::Time attackCooldown;

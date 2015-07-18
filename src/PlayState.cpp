@@ -10,9 +10,16 @@
 using std::shared_ptr;
 
 
-PlayState::PlayState(Game &game, MsgMgr *msgMgr) : State(game, msgMgr)
+const sf::Time PlayState::PhysicsUpdateDelta = sf::seconds(1.0 / 60.0);
+
+
+PlayState::PlayState(Game &game, MsgMgr *msgMgr)
+    : State(game, msgMgr)
+    , physicsUpdateTimer(PhysicsUpdateDelta)
+    , world( b2Vec2(0, 0) ) // no gravity
 {
-    shared_ptr<Ship> ship(new Ship(sf::Vector2f(100,100), 10, 10, 10, 10, 10, 10));
+    shared_ptr<Ship> ship(
+        new Ship(world, sf::Vector2f(-30, 7), 10, 10, 10, 10, 10, 10) );
     entities.push_back(ship);
 }
 
@@ -35,6 +42,12 @@ bool PlayState::handleEvent(const sf::Event &event)
 
 void PlayState::update(sf::Time dt)
 {
+    physicsUpdateTimer -= dt;
+    if (physicsUpdateTimer <= sf::Time::Zero)
+    {
+        physicsUpdateTimer += PhysicsUpdateDelta;
+        world.Step(PhysicsUpdateDelta.asSeconds(), 8, 3);
+    }
     for (auto ent : entities)
         ent->update(dt);
 }

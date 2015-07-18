@@ -18,8 +18,11 @@ PlayState::PlayState(Game &game, MsgMgr *msgMgr)
     , physicsUpdateTimer(PhysicsUpdateDelta)
     , world( b2Vec2(0, 0) ) // no gravity
 {
+    ShipStat stat;
+    if (!stat.setAll(7, 4, 1, 1, 1, 1))
+        std::cerr << "Couldn't apply stats to Ship!" << std::endl;
     shared_ptr<Ship> ship(
-        new Ship(world, sf::Vector2f(-30, 7), 10, 10, 10, 10, 10, 10) );
+        new Ship(world, sf::Vector2f(10, 7), std::move(stat)) );
     entities.push_back(ship);
 }
 

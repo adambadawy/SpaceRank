@@ -8,6 +8,7 @@
 
 #include <Box2D/Box2D.h>
 
+#include "Angle.h"
 #include "Entity.h"
 #include "ShipStat.h"
 
@@ -31,7 +32,7 @@ public:
 private:
     float ThrustCoeff = 10;
 
-    float getRotation() const;
+    Angle getRotation() const;
 
     sf::Time getAttackCooldownTime() const;
 

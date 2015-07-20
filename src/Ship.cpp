@@ -153,7 +153,7 @@ void Ship::render(Renderer &renderer) const
 }
 
 
-sf::Time Ship::getAttackCooldownTime()
+sf::Time Ship::getAttackCooldownTime() const
 {
     return sf::milliseconds(3060 - 300 * stat.getAttackFreq());
 }

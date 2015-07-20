@@ -33,9 +33,7 @@ private:
 
     float getRotation() const;
 
-    float getThrust();
-    float getRotateSpeed();
-    sf::Time getAttackCooldownTime();
+    sf::Time getAttackCooldownTime() const;
 
     /// Update Ship thrusters given the thrust and damper inputs.
     void updateThrust(int thrustInput, float damperCoeff);

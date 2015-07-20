@@ -8,11 +8,9 @@
 
 #include <Box2D/Box2D.h>
 
+#include "Angle.h"
 #include "Entity.h"
 #include "ShipStat.h"
-
-using std::function;
-using std::shared_ptr;
 
 using std::function;
 using std::shared_ptr;
@@ -28,19 +26,15 @@ public:
 
     virtual sf::Vector2f getPosition() const;
 
-    virtual sf::Vector2f getPosition() const;
-
     virtual void update(sf::Time dt);
     virtual void render(Renderer &renderer) const;
 
 private:
     float ThrustCoeff = 10;
 
-    float getRotation() const;
+    Angle getRotation() const;
 
-    float getThrust();
-    float getRotateSpeed();
-    sf::Time getAttackCooldownTime();
+    sf::Time getAttackCooldownTime() const;
 
     /// Update Ship thrusters given the thrust and damper inputs.
     void updateThrust(int thrustInput, float damperCoeff);

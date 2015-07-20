@@ -63,7 +63,7 @@ sf::Vector2f Ship::getPosition() const
 }
 
 
-float Ship::getRotation() const { return toDegrees(body->GetAngle()); }
+Angle Ship::getRotation() const { return radians(body->GetAngle()); }
 
 
 void Ship::update(sf::Time dt)
@@ -111,7 +111,7 @@ void Ship::updateThrust(int thrustInput, float damperCoeff)
     if (thrustInput == 1)
     {
         b2Vec2 thrustForce =
-            b2VectorFromMagnitude(thrustMagnitude, body->GetAngle());
+            b2VectorFromMagnitude(thrustMagnitude, getRotation());
         body->ApplyForceToCenter( thrustForce, true );
     }
     else if (thrustInput == -1)
@@ -135,7 +135,7 @@ void Ship::updateThrust(int thrustInput, float damperCoeff)
 void Ship::updateSprite()
 {
     sprite.setPosition( this->getPosition() * 10.0f );
-    sprite.setRotation( this->getRotation() );
+    sprite.setRotation( this->getRotation().asDegrees() );
 }
 
 
@@ -153,7 +153,7 @@ void Ship::render(Renderer &renderer) const
 }
 
 
-sf::Time Ship::getAttackCooldownTime()
+sf::Time Ship::getAttackCooldownTime() const
 {
     return sf::milliseconds(3060 - 300 * stat.getAttackFreq());
 }

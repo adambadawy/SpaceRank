@@ -6,6 +6,7 @@
 #include "Entity.h"
 #include "Game.h"
 #include "Ship.h"
+#include "ShipStat.h"
 
 using std::shared_ptr;
 

@@ -52,4 +52,5 @@ private:
     sf::Time attackCooldown;
 
     mutable sf::ConvexShape sprite;
+    mutable sf::RectangleShape hitboxSprite;
 };

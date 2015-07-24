@@ -24,6 +24,7 @@ Ship::Ship
     , stat(stat)
     , text("debug text")
     , attackCooldown(sf::Time::Zero)
+    , hitboxSprite(sf::Vector2f(20, 20))
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
@@ -148,12 +149,15 @@ void Ship::updateSprite()
 {
     sprite.setPosition( this->getPosition().asRenderVec() );
     sprite.setRotation( this->getRotation().asDegrees() );
+    hitboxSprite.setPosition( this->getPosition().asRenderVec() );
+    hitboxSprite.setRotation( this->getRotation().asDegrees() );
 }
 
 
 void Ship::render(Renderer &renderer) const
 {
     renderer.draw(sprite);
+    renderer.draw(hitboxSprite);
     // text = "%f", body->GetAngularVelocity();
     std::stringstream ss;
     ss << (int)(abs(body->GetLinearVelocity().x));

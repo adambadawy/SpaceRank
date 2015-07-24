@@ -5,6 +5,7 @@
 #include "EventHandler.h"
 #include "Renderable.h"
 #include "Updatable.h"
+#include "Vec2.h"
 
 class ResMgr;
 
@@ -23,5 +24,5 @@ public:
     virtual void render(Renderer &renderer) const = 0;
 
     /// Return the world coordinates of this Entity
-    virtual sf::Vector2f getPosition() const = 0;
+    virtual Vec2 getPosition() const = 0;
 };

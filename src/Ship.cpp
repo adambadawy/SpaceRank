@@ -17,7 +17,7 @@ using std::function;
 
 Ship::Ship
     ( b2World &world
-    , sf::Vector2f initPosition
+    , Vec2 initPosition
     , ShipStat &&stat )
 
     : body(nullptr)
@@ -27,7 +27,9 @@ Ship::Ship
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(initPosition.x, initPosition.y);
+    bodyDef.position.Set
+        ( initPosition.asWorldVec().x
+        , initPosition.asWorldVec().y );
 
     // This lambda captures `world` as a reference (hence [&])
     // equivalent: [&](byBody *b) mutable { world.DestroyBody(b); };
@@ -57,12 +59,19 @@ Ship::Ship
     sprite.setFillColor(sf::Color::White);
     sf::FloatRect bounds = sprite.getLocalBounds();
     sprite.setOrigin(bounds.width / 2, bounds.height / 2);
+
+    hitboxSprite.setFillColor( sf::Color(255, 0, 0, 50) );
+    hitboxSprite.setOutlineColor( sf::Color(255, 0, 0) );
+    hitboxSprite.setOutlineThickness(1);
+    hitboxSprite.setOrigin( sf::Vector2f(10, 10) );
+
+    updateSprite();
 }
 
 
-sf::Vector2f Ship::getPosition() const
+Vec2 Ship::getPosition() const
 {
-    return toSfVector(body->GetPosition());
+    return worldVec(body->GetPosition());
 }
 
 
@@ -137,7 +146,7 @@ void Ship::updateThrust(int thrustInput, float damperCoeff)
 
 void Ship::updateSprite()
 {
-    sprite.setPosition( this->getPosition() * 10.0f );
+    sprite.setPosition( this->getPosition().asRenderVec() );
     sprite.setRotation( this->getRotation().asDegrees() );
 }
 

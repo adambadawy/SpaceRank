@@ -10,6 +10,7 @@
 #include "Angle.h"
 #include "Entity.h"
 #include "ShipStat.h"
+#include "Vec2.h"
 
 using std::shared_ptr;
 
@@ -19,10 +20,10 @@ class Ship : public Entity
 public:
     Ship
         ( b2World &world
-        , sf::Vector2f initPosition
+        , Vec2 initPosition
         , ShipStat &&stat );
 
-    virtual sf::Vector2f getPosition() const;
+    virtual Vec2 getPosition() const;
 
     virtual void update(sf::Time dt);
     virtual void render(Renderer &renderer) const;

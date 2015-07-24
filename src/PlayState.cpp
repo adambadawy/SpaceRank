@@ -3,6 +3,7 @@
 #include <iostream>
 #include <memory>
 
+#include "Ball.h"
 #include "Entity.h"
 #include "Game.h"
 #include "Ship.h"
@@ -25,6 +26,9 @@ PlayState::PlayState(Game &game, MsgMgr *msgMgr)
     shared_ptr<Ship> ship(
         new Ship(world, worldVec(10, 7), std::move(stat)) );
     entities.push_back(ship);
+
+    shared_ptr<Ball> ball( new Ball(world, sf::Vector2f(20, 7)) );
+    entities.push_back(ball);
 }
 
 

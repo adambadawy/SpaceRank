@@ -4,13 +4,12 @@
 /// Kiss radian/degree headaches goodbye.
 class Angle
 {
+    friend Angle degrees(float deg);
+    friend Angle radians(float rad);
+
 public:
     /// Construct an Angle object. No guaranteed size, for performance.
     explicit Angle();
-    /// Create an Angle object from a degree value.
-    friend Angle degrees(float deg);
-    /// Create an Angle object from a radian value.
-    friend Angle radians(float rad);
 
     /// Get the size of this angle in degrees.
     float asDegrees() const;
@@ -34,5 +33,7 @@ private:
     float radians;
 };
 
+/// Create an Angle object from a degree value.
 Angle degrees(float deg);
+/// Create an Angle object from a radian value.
 Angle radians(float rad);

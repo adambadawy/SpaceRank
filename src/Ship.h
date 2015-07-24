@@ -1,6 +1,5 @@
 #pragma once
 
-#include <functional>
 #include <memory>
 
 #include <SFML/Graphics.hpp>
@@ -12,7 +11,6 @@
 #include "Entity.h"
 #include "ShipStat.h"
 
-using std::function;
 using std::shared_ptr;
 
 

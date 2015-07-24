@@ -1,6 +1,7 @@
 #include "Ship.h"
 
 #include <cmath>
+#include <functional>
 #include <iostream>
 #include <sstream>
 
@@ -10,6 +11,8 @@
 #include "PlayState.h"
 #include "Renderer.h"
 #include "Util.h"
+
+using std::function;
 
 
 Ship::Ship

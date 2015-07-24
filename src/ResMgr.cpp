@@ -10,9 +10,8 @@ ResMgr::ResMgr(Game &game)
     if (!errorTexture.loadFromFile("res/error.png"))
     {
         std::cout
-            << "Fatal: Failed to load \"missing texture\" texture."
+            << "Error: Failed to load \"missing texture\" texture."
             << std::endl;
-        // game.requestExit(1);
     }
 }
 

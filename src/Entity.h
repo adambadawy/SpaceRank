@@ -21,4 +21,7 @@ public:
 
     /// @see Renderable
     virtual void render(Renderer &renderer) const = 0;
+
+    /// Return the world coordinates of this Entity
+    virtual sf::Vector2f getPosition() const = 0;
 };

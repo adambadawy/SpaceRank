@@ -5,7 +5,7 @@
 #include <Box2D/Box2D.h>
 
 
-class Vec2
+class Vec2 final
 {
     friend Vec2 worldVec(b2Vec2 v);
     friend Vec2 worldVec(float x, float y);

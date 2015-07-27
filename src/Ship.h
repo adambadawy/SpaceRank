@@ -15,7 +15,7 @@
 using std::shared_ptr;
 
 
-class Ship : public Entity
+class Ship final : public Entity
 {
 public:
     Ship
@@ -23,10 +23,10 @@ public:
         , Vec2 initPosition
         , ShipStat &&stat );
 
-    virtual Vec2 getPosition() const;
+    Vec2 getPosition() const final override;
 
-    virtual void update(sf::Time dt);
-    virtual void render(Renderer &renderer) const;
+    void update(sf::Time dt) final override;
+    void render(Renderer &renderer) const final override;
 
 private:
     float ThrustCoeff = 10;

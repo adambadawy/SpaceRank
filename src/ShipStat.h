@@ -1,7 +1,7 @@
 #pragma once
 
 
-class ShipStat
+class ShipStat final
 {
 public:
     ShipStat();

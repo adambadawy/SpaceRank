@@ -18,22 +18,22 @@ class MenuState;
 
 
 /// This is class represents the control flow and global state of the game.
-class Game : public AbstractSubscriber, public EventHandler
+class Game final : public AbstractSubscriber, public EventHandler
 {
 public:
     Game();
 
     /// @see EventHandler
-    virtual bool handleEvent(const sf::Event &event);
+    bool handleEvent(const sf::Event &event) final override;
     
     /// @see AbstractSubscriber
-    virtual void handleMsg(const Msg &msg);
+    void handleMsg(const Msg &msg) final override;
 
     /// @see AbstractSubscriber
-    virtual void subscribe(MsgType type);
+    void subscribe(MsgType type) final override;
 
     /// @see AbstractSubscriber
-    virtual void broadcast(const Msg &msg);
+    void broadcast(const Msg &msg) final override;
 
     /// The "game loop".
     int run();

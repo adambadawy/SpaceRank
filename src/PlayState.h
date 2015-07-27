@@ -16,16 +16,16 @@ class Entity;
 class Game;
 
 
-class PlayState : public State
+class PlayState final : public State
 {
 public:
     static const sf::Time PhysicsUpdateDelta;
 
     PlayState(Game &game, MsgMgr *msgMgr);
 
-    virtual bool handleEvent(const sf::Event &event);
-    virtual void update(sf::Time dt);
-    virtual void render(Renderer &renderer) const;
+    bool handleEvent(const sf::Event &event) final override;
+    void update(sf::Time dt) final override;
+    void render(Renderer &renderer) const final override;
 
 private:
     sf::Time physicsUpdateTimer;

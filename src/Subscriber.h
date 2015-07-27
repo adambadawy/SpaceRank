@@ -12,8 +12,8 @@ class Subscriber : AbstractSubscriber
 public:
     Subscriber(MsgMgr *msgMgr);
 
-    virtual void subscribe(MsgType type);
-    virtual void broadcast(const Msg &msg);
+    void subscribe(MsgType type) final override;
+    void broadcast(const Msg &msg) final override;
     virtual void handleMsg(const Msg &msg);
 
 

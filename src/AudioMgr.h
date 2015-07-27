@@ -18,7 +18,7 @@ public:
     AudioMgr(MsgMgr *msgMgr);
 
     /// @see AbstractSubscriber
-    virtual void handleMsg(const Msg &msg);
+    void handleMsg(const Msg &msg) final override;
 
 
 private:

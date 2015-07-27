@@ -2,7 +2,7 @@
 
 
 /// Kiss radian/degree headaches goodbye.
-class Angle
+class Angle final
 {
     friend Angle degrees(float deg);
     friend Angle radians(float rad);

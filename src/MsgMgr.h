@@ -8,7 +8,7 @@
 class AbstractSubscriber;
 
 
-class MsgMgr
+class MsgMgr final
 {
     friend class Game;
 

@@ -11,7 +11,7 @@ class ResMgr;
 
 
 /// The "main menu" state of the game.
-class MenuState : public State
+class MenuState final : public State
 {
 public:
     MenuState(Game &game, MsgMgr *msgMgr, ResMgr &resMgr);

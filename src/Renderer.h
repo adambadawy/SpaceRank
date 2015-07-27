@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 
-class Renderer
+class Renderer final
 {
 public:
     enum class Align { Left, Center, Right };

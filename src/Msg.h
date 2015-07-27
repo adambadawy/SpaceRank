@@ -23,7 +23,7 @@ enum class MsgType
 
 
 /// The ideal structure for one-way communication between objects.
-class Msg
+class Msg final
 {
 public:
     Msg(MsgType type);

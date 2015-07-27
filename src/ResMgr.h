@@ -8,7 +8,7 @@
 class Game;
 
 
-class ResMgr
+class ResMgr final
 {
 public:
     ResMgr(Game &game);

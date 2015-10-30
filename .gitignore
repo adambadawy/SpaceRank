@@ -7,6 +7,8 @@ cmake_install.cmake
 gmon.out
 spacerank
 .buildpls.json
+SpaceRank.sublime-project
+SpaceRank.sublime-workspace
 
 # Linux
 bin/*

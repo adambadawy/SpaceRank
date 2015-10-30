@@ -5,6 +5,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "")
     set(CMAKE_BUILD_TYPE Debug)
 endif()
 
+set(CMAKE_CXX_COMPILER "/usr/bin/clang++-3.5")
 set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -pg")
 
 set(PROJECT_SOURCE_DIR src)

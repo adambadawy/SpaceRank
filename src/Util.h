@@ -7,7 +7,7 @@
 #include "Angle.h"
 
 
-constexpr float Pi = std::acos(-1);
+constexpr float Pi = 3.14159267;
 
 
 sf::Vector2f toSfVector(b2Vec2 v);

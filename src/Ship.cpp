@@ -131,7 +131,7 @@ void Ship::updateThrust(int thrustInput, float damperCoeff)
     {
         b2Vec2 brakeVel = body->GetLinearVelocity();
         float magnitude = brakeVel.Normalize();
-        if (abs(magnitude) <
+        if (std::fabs(magnitude) <
                 (ThrustCoeff * PlayState::PhysicsUpdateDelta.asSeconds()) / 2)
         {
             body->SetLinearVelocity( b2Vec2(0, 0) );
@@ -160,7 +160,7 @@ void Ship::render(Renderer &renderer) const
     renderer.draw(hitboxSprite);
     // text = "%f", body->GetAngularVelocity();
     std::stringstream ss;
-    ss << (int)(abs(body->GetLinearVelocity().x));
+    ss << (int)(std::fabs(body->GetLinearVelocity().x));
     text = ss.str();
     renderer.drawText
         ( text

@@ -15,11 +15,7 @@
 using std::function;
 
 
-Ship::Ship
-    ( b2World &world
-    , Vec2 initPosition
-    , ShipStat &&stat )
-
+Ship::Ship(b2World &world, Vec2 initPosition, ShipStat &&stat)
     : body(nullptr)
     , stat(stat)
     , text("debug text")
